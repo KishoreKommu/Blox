@@ -1,0 +1,68 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Your Dashboard - Blox{% endblock %}
+
+{% block content %}
+<div class="container py-4" data-aos="fade-up">
+
+  <h2 class="mb-4 text-center fw-bold">👋 Welcome back, {{ user.username }}!</h2>
+
+  {% if posts %}
+    <div class="row g-4">
+      {% for post in posts %}
+        <div class="col-md-6 col-lg-4" data-aos="zoom-in-up">
+          <div class="card h-100 shadow-sm border-0">
+            {% if post.image %}
+              <img src="{{ post.image.url }}" class="card-img-top rounded-top" alt="Post Image">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-semibold">{{ post.title|truncatechars:40 }}</h5>
+              <p class="card-text text-muted small mb-2">
+                {{ post.content|truncatewords:18 }}
+              </p>
+
+              {% if post.audio %}
+                <audio controls class="w-100 mb-2">
+                  <source src="{{ post.audio.url }}">
+                  Your browser does not support the audio element.
+                </audio>
+              {% endif %}
+
+              <div class="mt-auto d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                  <i class="bi bi-clock"></i> {{ post.created_at|date:"M d, Y H:i" }}
+                </small>
+                <div class="d-flex">
+                  <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-outline-secondary me-1">
+                    👁️ View
+                  </a>
+                  <a href="{% url 'post_edit' post.id %}" class="btn btn-sm btn-outline-primary me-1">
+                    ✏️ Edit
+                  </a>
+                  <a href="{% url 'post_delete' post.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this post?');">
+                    🗑️ Delete
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center" data-aos="fade-down">
+      You haven’t created any blog posts yet. <a href="{% url 'post_create' %}" class="fw-bold">Start writing one!</a>
+    </div>
+  {% endif %}
+  {% for post in posts %}
+  <div class="card mb-3 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">{{ post.title }}</h4>
+      <p class="card-text">{{ post.content|truncatewords:25 }}</p>
+      <a href="{% url 'post_detail' post.pk %}" class="btn btn-outline-primary">View</a>
+    </div>
+  </div>
+{% endfor %}
+
+</div>
+{% endblock %}

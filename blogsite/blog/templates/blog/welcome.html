@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+{% block title %}Welcome to Blox{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="emoji-display mb-4">📔✨</div>
+    <h1 class="mb-3">Welcome to <span class="brand">Blox</span></h1>
+    <p class="lead">Your safe space to write, reflect, and express your thoughts freely.</p>
+
+    <div class="mt-4">
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-3">🔐 Login</a>
+        <a href="{% url 'register' %}" class="btn btn-outline-secondary btn-lg">📝 Register</a>
+        <div class="mt-3">
+            <a href="{% url 'about' %}" class="text-decoration-none">💡 Learn more</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 40px;
+}
+.brand {
+    color: #007bff;
+    font-weight: bold;
+}
+.emoji-display {
+    font-size: 4rem;
+    animation: float 2s ease-in-out infinite;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+</style>
+{% endblock %}

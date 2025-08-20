@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+{% block title %}{{ post.title }} - Blox{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h1 class="mb-2">{{ post.title }}</h1>
+        <p class="meta">by {{ post.author }} | {{ post.created_at|date:"d M Y, H:i" }}</p>
+        <hr>
+        <div class="mb-4">{{ post.content|linebreaks }}</div>
+
+        <!-- Uploaded Images Section -->
+        <h5 class="mb-3">Uploaded Images:</h5>
+        {% if post.images.all %}
+        <div class="d-flex flex-wrap gap-3 mb-4">
+            {% for image in post.images.all %}
+                <img src="{{ image.image.url }}" alt="Post Image" class="img-thumbnail" style="max-height: 250px;">
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="text-muted">No images uploaded for this post.</p>
+        {% endif %}
+
+        <!-- Audio Section -->
+        {% if post.audio %}
+            <h5>Audio Note:</h5>
+            <audio controls class="mb-4">
+                <source src="{{ post.audio.url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        {% endif %}
+
+        <a class="back btn btn-outline-primary mt-4" href="{% url 'post_list' %}">&larr; Back to posts</a>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+h1 {
+    color: #2c3e50;
+}
+.meta {
+    color: #888;
+    font-size: 14px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+{% block title %}Create Post - Blox{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📝 Create a New Post</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <label for="images">Upload Images:</label>
+  <input type="file" name="images" multiple> <!-- very important -->
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+{% endblock %}
+<script>
+function previewImages() {
+  const previewContainer = document.getElementById('preview-container');
+  previewContainer.innerHTML = '';
+
+  const files = document.getElementById('id_images').files;
+
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.height = '100px';
+      img.style.marginRight = '10px';
+      img.style.borderRadius = '8px';
+      previewContainer.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+</script>
